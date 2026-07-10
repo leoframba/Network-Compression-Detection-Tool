@@ -1,8 +1,10 @@
 #include "udp_train.h"
 
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <time.h>
 #include <unistd.h>
 
 #ifdef __linux__
@@ -11,6 +13,19 @@
 #include <linux/in.h>
 #endif
 #endif
+
+static void sleep_microseconds(int usec)
+{
+    if (usec <= 0) {
+        return;
+    }
+    struct timespec ts;
+    ts.tv_sec = usec / 1000000;
+    ts.tv_nsec = (long)(usec % 1000000) * 1000L;
+    while (nanosleep(&ts, &ts) == -1 && errno == EINTR) {
+        /* retry remaining time */
+    }
+}
 
 void udp_set_dont_fragment(int udp_sock)
 {
@@ -67,7 +82,7 @@ int send_udp_packet_train(long pack_count,
         }
 
         if (inter_packet_us > 0) {
-            usleep((useconds_t)inter_packet_us);
+            sleep_microseconds(inter_packet_us);
         }
     }
 

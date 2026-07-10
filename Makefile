@@ -9,7 +9,8 @@
 
 CC       ?= gcc
 CFLAGS   ?= -std=c11 -Wall -Wextra -O2 -g
-CPPFLAGS += -Icommon -Icommon/vendor
+# glibc hides POSIX APIs under -std=c11 unless a feature macro is set.
+CPPFLAGS += -D_DEFAULT_SOURCE -Icommon -Icommon/vendor
 LDFLAGS  ?=
 LDLIBS   ?=
 

@@ -75,10 +75,11 @@ static int init_tcp_sock(int port, in_addr_t server_ip, int verbose, int retries
 static int run_one_trial(config_settings *settings, const char *config_path,
                          int verbose, long *out_low, long *out_high, int *out_ok)
 {
-    in_addr_t server_ip = inet_addr(settings->server_ip);
-    if (server_ip == INADDR_NONE) {
+    struct in_addr addr;
+    if (inet_pton(AF_INET, settings->server_ip, &addr) != 1) {
         fatalf("Invalid serverIp: %s", settings->server_ip);
     }
+    in_addr_t server_ip = addr.s_addr;
 
     if (verbose) {
         printf("\n********** Pre-Probing Phase **********\n");

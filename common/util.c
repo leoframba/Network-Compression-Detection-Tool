@@ -36,9 +36,11 @@ char *xstrdup(const char *s)
     if (!s) {
         return NULL;
     }
-    char *copy = strdup(s);
+    size_t len = strlen(s) + 1;
+    char *copy = malloc(len);
     if (!copy) {
-        fatal("strdup");
+        fatal("malloc");
     }
+    memcpy(copy, s, len);
     return copy;
 }
