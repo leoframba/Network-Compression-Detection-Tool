@@ -1,0 +1,16 @@
+{
+  "serverIp": "127.0.0.1",
+  "sourcePort": 54321,
+  "destPortUdp": 18765,
+  "destPortTcpHead": 18000,
+  "destPortTcpTail": 18080,
+  "TcpPortNum": 18100,
+  "UdpPayloadSize": 64,
+  "InterTime": 3,
+  "UdpPackCount": 20,
+  "Ttl": 64,
+  "ThresholdMs": 100,
+  "InterPacketUs": 100,
+  "Trials": 1,
+  "DataThreshold": 0.0
+}

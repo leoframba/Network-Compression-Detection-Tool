@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libpcap-dev
+
+      - name: Build cooperative tools
+        run: make client server
+
+      - name: Build standalone probe
+        run: make probe
+
+      - name: Run unit tests
+        run: make test
+
+      - name: Verify help output
+        run: |
+          ./bin/ncd-client --help
+          ./bin/ncd-server --help
+          ./bin/ncd-probe --help
